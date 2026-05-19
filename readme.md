@@ -1,203 +1,147 @@
-Usuario: admin
+# Sistema de Gestión de Aprendices (SGA)
 
-Contraseña: admin123
+¡Bienvenido al **SGA**! Un sistema web robusto desarrollado en PHP diseñado para centralizar y optimizar la administración de aprendices, instructores, riesgos y observaciones académicas.
 
-Sistema de Gestión de Aprendices (SGA)
+---
 
-Sistema web desarrollado en PHP para la administración de aprendices, instructores, riesgos y observaciones académicas.
-Incluye autenticación por roles, auditoría de acciones y panel administrativo.
+##  Características Clave
 
-Características
-Inicio de sesión con control de acceso.
-Gestión de usuarios.
-Gestión de aprendices.
-Gestión de instructores.
-Registro y evaluación de riesgos.
-Registro de observaciones.
-Auditoría de acciones del sistema.
-Dashboard con estadísticas.
-Interfaz responsive con TailwindCSS.
-Base de datos creada automáticamente.
-Tecnologías utilizadas
-PHP
-MySQL
-PDO
-TailwindCSS
-HTML5
-Roles del sistema
-Administrador
+*  **Seguridad Avanzada:** Inicio de sesión con control de acceso estricto y autenticación por roles.
+*  **Gestión Integral:** Módulos completos para usuarios, aprendices e instructores.
+*  **Evaluación de Riesgos:** Registro automatizado y cálculo del nivel de riesgo académico.
+*  **Seguimiento Continuo:** Historial detallado de observaciones por alumno.
+*  **Auditoría del Sistema:** Registro minucioso de cada acción realizada en la plataforma.
+*  **Panel de Control:** Dashboard interactivo con estadísticas en tiempo real.
+*  **Diseño Adaptable:** Interfaz moderna y responsive construida con TailwindCSS.
+*  **Auto-Instalación:** Configuración automática de la base de datos en el primer inicio.
 
-Puede:
+---
 
-Crear usuarios.
-Crear aprendices.
-Crear instructores.
-Registrar riesgos.
-Editar riesgos.
-Eliminar registros.
-Ver auditoría.
-Ver observaciones.
-Instructor
+##  Tecnologías Utilizadas
 
-Puede:
+* **Backend:** PHP 8.x
+* **Base de Datos:** MySQL con PDO (Consultas preparadas)
+* **Frontend:** HTML5 & TailwindCSS
 
-Ver aprendices.
-Registrar observaciones.
-Consultar riesgos.
-Consultar observaciones.
-Aprendiz
+---
 
-Puede:
+##  Roles del Sistema
 
-Iniciar sesión.
-Consultar información permitida por el sistema.
-Módulos del sistema
-Dashboard
 
-Muestra:
+| Permisos / Acciones |  Administrador | 👨 Instructor |  Aprendiz |
+| :--- | :---: | :---: | :---: |
+| Gestionar usuarios y roles | ✅ | ❌ | ❌ |
+| Eliminar registros del sistema | ✅ | ❌ | ❌ |
+| Ver bitácora de auditoría | ✅ | ❌ | ❌ |
+| Crear aprendices / instructores | ✅ | ❌ | ❌ |
+| Registrar y editar riesgos | ✅ | ❌ | ❌ |
+| Consultar riesgos existentes | ✅ | ✅ | ❌ |
+| Registrar y ver observaciones | ✅ | ✅ | ❌ |
+| Consultar información permitida | ✅ | ✅ | ✅ |
 
-Total de aprendices.
-Total de instructores.
-Total de riesgos.
-Total de usuarios.
-Riesgos clasificados por nivel.
-Gestión de usuarios
+---
 
-Permite:
+##  Módulos del Sistema
 
-Crear usuarios.
-Asignar roles.
-Consultar usuarios registrados.
-Gestión de aprendices
+###  Dashboard
+* Métrica total de aprendices, instructores, usuarios y riesgos.
+* Clasificación visual de riesgos por niveles.
 
-Permite:
+###  Gestión de Usuarios, Aprendices e Instructores
+* Operaciones CRUD (Crear, Leer, Actualizar, Eliminar) según el rol asignado.
 
-Registrar aprendices.
-Consultar aprendices.
-Eliminar aprendices.
-Gestión de instructores
+###  Gestión de Riesgos
+* Registro y cálculo inteligente basado en la siguiente fórmula matemática:
+  $$\text{Nivel de Riesgo} = \text{Probabilidad} \times \text{Impacto}$$
 
-Permite:
+#### 🚦 Semáforo de Clasificación:
+* 🟢 **Bajo** → Zona Segura
+* 🟡 **Medio** → En Observación
+* 🔴 **Alto** → Alerta Crítica
 
-Registrar instructores.
-Consultar instructores.
-Eliminar instructores.
-Gestión de riesgos
+###  Observaciones y Auditoría
+* Historial académico vinculando instructores y alumnos.
+* Bitácora de seguridad que registra: inicios de sesión, intentos fallidos y modificaciones de datos.
 
-Permite:
+---
 
-Registrar riesgos.
-Calcular nivel de riesgo.
-Editar riesgos.
-Eliminar riesgos.
-Fórmula del nivel de riesgo
+##  Estructura de la Base de Datos
 
-Nivel de Riesgo=Probabilidad×Impacto
+### `usuarios`
+* `id` (INT, PK)
+* `username` (VARCHAR)
+* `password` (VARCHAR)
+* `role` (ENUM)
 
-Clasificación
-Bajo → Verde
-Medio → Amarillo
-Alto → Rojo
-Observaciones
+### `aprendices`
+* `id` (INT, PK)
+* `nombre` (VARCHAR)
+* `programa` (VARCHAR)
 
-Permite:
+### `instructores`
+* `id` (INT, PK)
+* `nombre` (VARCHAR)
+* `especialidad` (VARCHAR)
 
-Registrar observaciones para aprendices.
-Asociar observaciones a instructores.
-Consultar historial de observaciones.
-Auditoría
+### `riesgos`
+* `id` (INT, PK)
+* `descripcion` (VARCHAR)
+* `nivel` (INT)
+* `justificacion` (TEXT)
 
-Registra:
+### `observaciones`
+* `id` (INT, PK)
+* `aprendiz_id` (INT, FK)
+* `texto` (TEXT)
+* `autor_id` (INT, FK)
 
-Inicios de sesión.
-Intentos fallidos.
-Creación de registros.
-Eliminación de registros.
-Edición de información.
-Estructura de la base de datos
-Tabla usuarios
-Campo	Tipo
-id	INT
-username	VARCHAR
-password	VARCHAR
-role	ENUM
-Tabla aprendices
-Campo	Tipo
-id	INT
-nombre	VARCHAR
-programa	VARCHAR
-Tabla instructores
-Campo	Tipo
-id	INT
-nombre	VARCHAR
-especialidad	VARCHAR
-Tabla riesgos
-Campo	Tipo
-id	INT
-descripcion	VARCHAR
-nivel	INT
-justificacion	TEXT
-Tabla observaciones
-Campo	Tipo
-id	INT
-aprendiz_id	INT
-texto	TEXT
-autor_id	INT
-Tabla auditoria
-Campo	Tipo
-id	INT
-usuario	VARCHAR
-accion	VARCHAR
-fecha	DATETIME
-Instalación
-1. Clonar el proyecto
-git clone URL_DEL_REPOSITORIO
-2. Mover el proyecto
+### `auditoria`
+* `id` (INT, PK)
+* `usuario` (VARCHAR)
+* `accion` (VARCHAR)
+* `fecha` (DATETIME)
 
-Copiar el archivo del sistema dentro de:
+---
 
-XAMPP
-htdocs/
-Laragon
-www/
-3. Iniciar servicios
+##  Instalación y Configuración
 
-Iniciar:
+Sigue estos sencillos pasos para desplegar el entorno local:
 
-Apache
-MySQL
-4. Ejecutar el sistema
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com
+```
 
-Abrir en el navegador:
+### 2. Mover los archivos al servidor local
+* **XAMPP:** Copia la carpeta del proyecto en `C:/xampp/htdocs/`
+* **Laragon:** Copia la carpeta del proyecto en `C:/laragon/www/`
 
-http://localhost/
-Credenciales por defecto
-Administrador
-Usuario: admin
-Contraseña: admin123
-Funcionamiento automático
+### 3. Iniciar los servicios
+* Abre tu panel de control (XAMPP/Laragon) e inicia los servicios de **Apache** y **MySQL**.
 
-El sistema:
+### 4. Ejecutar la aplicación
+* Ingresa desde tu navegador web a la siguiente dirección:
+  ```http
+  http://localhost/New-Gestion-Aprendices
+  ```
 
-Crea automáticamente la base de datos.
-Crea automáticamente las tablas.
-Inserta un administrador inicial.
-Configura la conexión mediante PDO.
-Seguridad implementada
-Uso de password_hash().
-Uso de password_verify().
-Protección básica mediante consultas preparadas.
-Validación de roles.
-Registro de auditoría.
-Mejoras futuras
-Recuperación de contraseña.
-Exportación de reportes PDF.
-Dashboard avanzado con gráficas.
-Sistema de notificaciones.
-Gestión de fichas y programas.
-API REST.
-Arquitectura modular MVC.
-Integración con JWT.
-Autor
+>  **Nota de Automatización:** No necesitas importar ningún archivo `.sql`. El sistema detectará la ausencia de la base de datos, la creará de forma automática, generará las tablas e insertará al administrador inicial mediante PDO.
 
-Desarrollado por Juan Manuel Cardona Molina.# New-Gestion-Aprendices
+---
+
+##  Credenciales de Acceso por Defecto
+
+* **Usuario:** `admin`
+* **Contraseña:** `admin123`
+
+---
+
+## Seguridad Implementada
+
+*  Encriptación de contraseñas robusta mediante `password_hash()` y validación con `password_verify()`.
+*  Protección contra inyecciones SQL usando sentencias preparadas con **PDO**.
+*  Sistema estricto de validación y control de acceso basado en roles.
+
+##  Autor
+
+* **Desarrollador:** Juan Manuel Cardona Molina
