@@ -1,5 +1,9 @@
 <?php
-
+require '../Dashboard/crud.php';
+require '../Dashboard/dashboard.php';
+require '../Dashboard/db.php';
+?>
+<?php
 /**
  * Clase para automatizar la valoración de riesgos según la actividad 3.3
  */
