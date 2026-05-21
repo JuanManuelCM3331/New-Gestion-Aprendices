@@ -6,7 +6,22 @@ $config = array(
     'pass' => '',
     'db' => 'gestion_aprendices'
 );
-$db = new PDO("mysql:host=" . $config['host'] . ";dbname=" . $config['db'], $config['user'], $config['pass']);
+
+try {
+    $db = new PDO("mysql:host=" . $config['host'] . ";dbname=" . $config['db'], $config['user'], $config['pass']);
+} catch (PDOException $e) {
+    $driverCode = $e->errorInfo[1] ?? null;
+    if ($driverCode == 1049 || str_contains($e->getMessage(), 'Unknown database')) {
+        $tmp = new PDO("mysql:host=" . $config['host'] . ";", $config['user'], $config['pass']);
+        $tmp->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $tmp->exec("CREATE DATABASE IF NOT EXISTS `" . $config['db'] . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        $db = new PDO("mysql:host=" . $config['host'] . ";dbname=" . $config['db'], $config['user'], $config['pass']);
+    } else {
+        throw $e;
+    }
+}
+
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $page = $_GET['page'] ?? 'dashboard';
 
 $db->exec("CREATE TABLE IF NOT EXISTS usuarios (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50), password VARCHAR(255), role ENUM('admin', 'instructor', 'aprendiz'))");
