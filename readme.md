@@ -28,7 +28,7 @@
 ##  Roles del Sistema
 
 
-| Permisos / Acciones |  Administrador | 👨 Instructor |  Aprendiz |
+| Permisos / Acciones |  Administrador |  Instructor |  Aprendiz |
 | :--- | :---: | :---: | :---: |
 | Gestionar usuarios y roles | ✅ | ❌ | ❌ |
 | Eliminar registros del sistema | ✅ | ❌ | ❌ |
@@ -54,7 +54,7 @@
 * Registro y cálculo inteligente basado en la siguiente fórmula matemática:
   $$\text{Nivel de Riesgo} = \text{Probabilidad} \times \text{Impacto}$$
 
-#### 🚦 Semáforo de Clasificación:
+####  Semáforo de Clasificación:
 * 🟢 **Bajo** → Zona Segura
 * 🟡 **Medio** → En Observación
 * 🔴 **Alto** → Alerta Crítica

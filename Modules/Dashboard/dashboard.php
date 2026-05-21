@@ -1,7 +1,5 @@
 <?php
 require "crud.php";
-require "db.php";
-require '../ValoradorRiesgo/calcularRiesgo.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,7 +1,6 @@
 <?php
 require "db.php";
-require "dashboard.php";
-require '../ValoradorRiesgo/calcularRiesgo.php';
+require 'Modules/ValoradorRiesgo/calcularRiesgo.php';
 
 session_start();
 
