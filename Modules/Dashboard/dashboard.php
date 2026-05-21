@@ -9,6 +9,9 @@ require "crud.php";
 </head>
 
 <body class="bg-gray-100 flex h-screen">
+
+    <!--++++++++++++++++++++++++++++ Login ++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
     <?php if (!isset($_SESSION['user'])): ?>
         <div class="m-auto bg-white p-8 rounded shadow-xl w-80">
             <h2 class="font-bold mb-4">SGA Login</h2>
@@ -22,39 +25,64 @@ require "crud.php";
             </form>
         </div>
     <?php else: ?>
-        <aside class="w-64 bg-slate-900 text-white p-6">
-            <h1 class="font-bold mb-6">SGA | <?= htmlspecialchars($_SESSION['user']['role']) ?></h1>
-            <nav class="space-y-2">
-                <a href="?page=dashboard" class="block py-2 hover:bg-slate-700"> Dashboard</a>
-                <?php if ($_SESSION['user']['role'] == 'admin'): ?>
-                    <a href="?page=usuarios" class="block py-2 hover:bg-slate-700"> Gestión Usuarios</a>
-                    <a href="?page=aprendices" class="block py-2 hover:bg-slate-700"> Aprendices</a>
-                    <a href="?page=instructores" class="block py-2 hover:bg-slate-700"> Instructores</a>
-                    <a href="?page=auditoria" class="block py-2 hover:bg-slate-700"> Auditoría</a>
-                <?php endif; ?>
-                <a href="?page=riesgos" class="block py-2 hover:bg-slate-700"> Riesgos</a>
-                <a href="?page=observaciones" class="block py-2 hover:bg-slate-700"> Observaciones</a>
-                <a href="?action=logout" class="block py-2 hover:bg-slate-700"> Cerrar sesión</a>
-            </nav>
-        </aside>
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+<aside class="w-64 bg-slate-900 text-slate-300 p-6 flex flex-col h-screen border-r border-slate-800 font-sans">
+    <h1 class="text-xl font-extrabold text-white tracking-wide mb-8 flex flex-col gap-1">
+        <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Sistema</span>
+        SGA | <span class="text-slate-400 font-medium text-sm mt-0.5"><?= htmlspecialchars($_SESSION['user']['role']) ?></span>
+    </h1>
+    
+    <nav class="space-y-1.5 flex-1">
+        <a href="?page=dashboard" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Dashboard</a>
+        
+        <?php if ($_SESSION['user']['role'] == 'admin'): ?>
+            <a href="?page=usuarios" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Gestión Usuarios</a>
+            <a href="?page=aprendices" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Aprendices</a>
+            <a href="?page=instructores" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Instructores</a>
+            <a href="?page=auditoria" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Auditoría</a>
+        <?php endif; ?>
+        
+        <a href="?page=riesgos" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Riesgos</a>
+        <a href="?page=observaciones" class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-slate-800 hover:text-white">Observaciones</a>
+        
+        <div class="pt-4 mt-4 border-t border-slate-800">
+            <a href="?action=logout" class="block px-4 py-2.5 rounded-lg text-sm font-medium text-rose-400 transition-all duration-200 hover:bg-rose-500/10 hover:text-rose-300">Cerrar sesión</a>
+        </div>
+    </nav>
+</aside>
+
+
+    <!--++++++++++++++++++++++++++++ dashboard ++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
         <main class="flex-1 p-8 overflow-y-auto">
             <?php if ($page == 'dashboard'): ?>
                 <div class="grid grid-cols-4 gap-4 mb-8">
                     <?php foreach (['aprendices', 'instructores', 'riesgos', 'usuarios'] as $t): ?>
-                        <div class="bg-white p-4 shadow"><?= ucfirst($t) ?>:
-                            <b><?= $db->query("SELECT count(*) FROM $t")->fetchColumn() ?></b>
-                        </div><?php endforeach; ?>
+                        <div
+                            class="px-3 pt-8 pb-10 text-center rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden z-10 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                            <span class="block text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
+                                <?= ucfirst($t) ?>
+                            </span>
+                            <span class="block text-3xl font-extrabold">
+                                <?= $db->query("SELECT count(*) FROM $t")->fetchColumn() ?>
+                            </span>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 p-4 bg-slate-50/50 rounded-xl border border-slate-200 shadow-sm content-start">
                     <?php foreach ($db->query("SELECT * FROM riesgos") as $r):
                         $color = ($r['nivel'] >= 6) ? 'red' : (($r['nivel'] >= 3) ? 'yellow' : 'green'); ?>
-                        <div class="bg-white p-4 border-l-4 border-<?= $color ?>-500 shadow">
+                        <div class=" bg-white p-4 rounded-xl border-2 border-l-8 border-<?= $color ?>-500 shadow">
                             <p class="font-bold"><?= $r['descripcion'] ?></p>
-                            <p class="text-xs">Nivel: <?= $r['nivel'] ?></p>
+                            <p class="text-xs text-<?= $color ?>-500 font-bold">Nivel: <?= $r['nivel'] ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
             <?php if ($page == 'usuarios' && $_SESSION['user']['role'] == 'admin'): ?>
                 <div class="bg-white p-4 shadow rounded mb-4">
