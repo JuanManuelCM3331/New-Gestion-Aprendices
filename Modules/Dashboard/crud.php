@@ -1,6 +1,6 @@
 <?php
-require "db.php";
-require 'Modules/ValoradorRiesgo/calcularRiesgo.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
 
 session_start();
 
@@ -33,12 +33,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
     if ($role === 'admin') {
         if ($action === 'crear_usuario') {
             $db->prepare("INSERT INTO usuarios (username, password, role) VALUES (?,?,?)")->execute([$_POST['u'], password_hash($_POST['p'], PASSWORD_DEFAULT), $_POST['r']]);
+            $uid = $db->lastInsertId();
+            // Si es aprendiz, crear entrada en aprendices vinculada
+            if ($_POST['r'] === 'aprendiz') {
+                $db->prepare("INSERT INTO aprendices (nombre, programa, usuario_id) VALUES (?,?,?)")->execute([$_POST['u'], '', $uid]);
+            }
             $auditAction = 'Creó usuario con rol: ' . $_POST['r'];
             $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
         }
         if ($action === 'crear_aprendiz') {
-            $db->prepare("INSERT INTO aprendices (nombre, programa) VALUES (?,?)")->execute([$_POST['nombre'], $_POST['prog']]);
-            $auditAction = 'Creó aprendiz: ' . $_POST['nombre'];
+            $nombre = trim($_POST['nombre']);
+            $base = preg_replace('/\s+/', '_', strtolower($nombre));
+            $username = $base;
+            $stmt = $db->prepare("SELECT count(*) FROM usuarios WHERE username = ?");
+            $stmt->execute([$username]);
+            $cnt = $stmt->fetchColumn();
+            $i = 1;
+            while ($cnt > 0) {
+                $username = $base . $i;
+                $stmt->execute([$username]);
+                $cnt = $stmt->fetchColumn();
+                $i++;
+            }
+            $password = 'aprendiz123';
+            $db->prepare("INSERT INTO usuarios (username, password, role) VALUES (?,?,?)")->execute([$username, password_hash($password, PASSWORD_DEFAULT), 'aprendiz']);
+            $uid = $db->lastInsertId();
+            $db->prepare("INSERT INTO aprendices (nombre, programa, usuario_id) VALUES (?,?,?)")->execute([$nombre, $_POST['prog'], $uid]);
+            $auditAction = 'Creó aprendiz: ' . $nombre . ' usuario: ' . $username;
             $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
         }
         if ($action === 'crear_instructor') {
@@ -61,14 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
             $auditAction = 'Creó observación para aprendiz ID: ' . $_POST['aprendiz_id'];
             $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
         }
-        if ($action === 'del') {
-            $table = $_GET['tabla'] ?? '';
-            if (in_array($table, $allowedTables, true)) {
-                $db->prepare("DELETE FROM $table WHERE id = ?")->execute([$_GET['id']]);
-                $auditAction = 'Eliminó ' . $table . ' ID: ' . $_GET['id'];
-        //        $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
-            }
-        }
         header('Location: ?page=' . $page);
         exit;
     }
@@ -82,11 +95,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
     }
 }
 
+// Manejo de eliminación (GET link)
 if ($action === 'del' && isset($_SESSION['user']) && $role === 'admin') {
     $table = $_GET['tabla'] ?? '';
-    if (in_array($table, $allowedTables, true)) {
-        $db->prepare("DELETE FROM $table WHERE id = ?")->execute([$_GET['id']]);
-    //    $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, 'Eliminó ' . ? . ' ID: ' . ? )")->execute([$_SESSION['user']['username'], $table, $_GET['id']]);
+    $id = $_GET['id'] ?? null;
+    if ($id && in_array($table, $allowedTables, true)) {
+        if ($table === 'usuarios') {
+            $stmt = $db->prepare("SELECT role FROM usuarios WHERE id = ?");
+            $stmt->execute([$id]);
+            $userToDelete = $stmt->fetch();
+            if ($userToDelete && $userToDelete['role'] === 'aprendiz') {
+                $db->prepare("DELETE FROM aprendices WHERE usuario_id = ?")->execute([$id]);
+            }
+            $db->prepare("DELETE FROM usuarios WHERE id = ?")->execute([$id]);
+        } elseif ($table === 'aprendices') {
+            $stmt = $db->prepare("SELECT usuario_id FROM aprendices WHERE id = ?");
+            $stmt->execute([$id]);
+            $apr = $stmt->fetch();
+            if ($apr && !empty($apr['usuario_id'])) {
+                $db->prepare("DELETE FROM usuarios WHERE id = ?")->execute([$apr['usuario_id']]);
+            }
+            $db->prepare("DELETE FROM aprendices WHERE id = ?")->execute([$id]);
+        } else {
+            $db->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
+        }
+        $auditAction = 'Eliminó ' . $table . ' ID: ' . $id;
+        $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
     }
     header('Location: ?page=' . $page);
     exit;

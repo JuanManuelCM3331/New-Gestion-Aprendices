@@ -1,147 +1,127 @@
-# Sistema de Gestión de Aprendices (SGA)
+# Gestion Aprendices
 
-¡Bienvenido al **SGA**! Un sistema web robusto desarrollado en PHP diseñado para centralizar y optimizar la administración de aprendices, instructores, riesgos y observaciones académicas.
+This is a system for managing apprentices and their risk assessment in an educational context.
 
----
+## Requirements
 
-##  Características Clave
+- PHP >= 7.4
+- MySQL >= 5.7 or MariaDB >= 10.2
+- Web Server (Apache, Nginx, etc)
+- Composer (optional, for dependencies)
 
-*  **Seguridad Avanzada:** Inicio de sesión con control de acceso estricto y autenticación por roles.
-*  **Gestión Integral:** Módulos completos para usuarios, aprendices e instructores.
-*  **Evaluación de Riesgos:** Registro automatizado y cálculo del nivel de riesgo académico.
-*  **Seguimiento Continuo:** Historial detallado de observaciones por alumno.
-*  **Auditoría del Sistema:** Registro minucioso de cada acción realizada en la plataforma.
-*  **Panel de Control:** Dashboard interactivo con estadísticas en tiempo real.
-*  **Diseño Adaptable:** Interfaz moderna y responsive construida con TailwindCSS.
-*  **Auto-Instalación:** Configuración automática de la base de datos en el primer inicio.
+## Installation
 
----
+### 1. Clone the repository
 
-##  Tecnologías Utilizadas
-
-* **Backend:** PHP 8.x
-* **Base de Datos:** MySQL con PDO (Consultas preparadas)
-* **Frontend:** HTML5 & TailwindCSS
-
----
-
-##  Roles del Sistema
-
-
-| Permisos / Acciones |  Administrador |  Instructor |  Aprendiz |
-| :--- | :---: | :---: | :---: |
-| Gestionar usuarios y roles | ✅ | ❌ | ❌ |
-| Eliminar registros del sistema | ✅ | ❌ | ❌ |
-| Ver bitácora de auditoría | ✅ | ❌ | ❌ |
-| Crear aprendices / instructores | ✅ | ❌ | ❌ |
-| Registrar y editar riesgos | ✅ | ❌ | ❌ |
-| Consultar riesgos existentes | ✅ | ✅ | ❌ |
-| Registrar y ver observaciones | ✅ | ✅ | ❌ |
-| Consultar información permitida | ✅ | ✅ | ✅ |
-
----
-
-##  Módulos del Sistema
-
-###  Dashboard
-* Métrica total de aprendices, instructores, usuarios y riesgos.
-* Clasificación visual de riesgos por niveles.
-
-###  Gestión de Usuarios, Aprendices e Instructores
-* Operaciones CRUD (Crear, Leer, Actualizar, Eliminar) según el rol asignado.
-
-###  Gestión de Riesgos
-* Registro y cálculo inteligente basado en la siguiente fórmula matemática:
-  $$\text{Nivel de Riesgo} = \text{Probabilidad} \times \text{Impacto}$$
-
-####  Semáforo de Clasificación:
-* 🟢 **Bajo** → Zona Segura
-* 🟡 **Medio** → En Observación
-* 🔴 **Alto** → Alerta Crítica
-
-###  Observaciones y Auditoría
-* Historial académico vinculando instructores y alumnos.
-* Bitácora de seguridad que registra: inicios de sesión, intentos fallidos y modificaciones de datos.
-
----
-
-##  Estructura de la Base de Datos
-
-### `usuarios`
-* `id` (INT, PK)
-* `username` (VARCHAR)
-* `password` (VARCHAR)
-* `role` (ENUM)
-
-### `aprendices`
-* `id` (INT, PK)
-* `nombre` (VARCHAR)
-* `programa` (VARCHAR)
-
-### `instructores`
-* `id` (INT, PK)
-* `nombre` (VARCHAR)
-* `especialidad` (VARCHAR)
-
-### `riesgos`
-* `id` (INT, PK)
-* `descripcion` (VARCHAR)
-* `nivel` (INT)
-* `justificacion` (TEXT)
-
-### `observaciones`
-* `id` (INT, PK)
-* `aprendiz_id` (INT, FK)
-* `texto` (TEXT)
-* `autor_id` (INT, FK)
-
-### `auditoria`
-* `id` (INT, PK)
-* `usuario` (VARCHAR)
-* `accion` (VARCHAR)
-* `fecha` (DATETIME)
-
----
-
-##  Instalación y Configuración
-
-Sigue estos sencillos pasos para desplegar el entorno local:
-
-### 1. Clonar el repositorio
 ```bash
-git clone https://github.com
+git clone https://github.com/JuanManuelCM3331/New-Gestion-Aprendices.git
+cd New-Gestion-Aprendices
 ```
 
-### 2. Mover los archivos al servidor local
-* **XAMPP:** Copia la carpeta del proyecto en `C:/xampp/htdocs/`
-* **Laragon:** Copia la carpeta del proyecto en `C:/laragon/www/`
+### 2. Create the database
 
-### 3. Iniciar los servicios
-* Abre tu panel de control (XAMPP/Laragon) e inicia los servicios de **Apache** y **MySQL**.
+The application will create the necessary tables automatically on first run.
 
-### 4. Ejecutar la aplicación
-* Ingresa desde tu navegador web a la siguiente dirección:
-  ```http
-  http://localhost/New-Gestion-Aprendices
-  ```
+### 3. Configure the database connection
 
->  **Nota de Automatización:** No necesitas importar ningún archivo `.sql`. El sistema detectará la ausencia de la base de datos, la creará de forma automática, generará las tablas e insertará al administrador inicial mediante PDO.
+Edit `Modules/Dashboard/db.php` and update the credentials:
 
----
+```php
+$config = array(
+    'host' => 'localhost',
+    'user' => 'root',
+    'pass' => '',
+    'db' => 'gestion_aprendices'
+);
+```
 
-##  Credenciales de Acceso por Defecto
+### 4. Access the application
 
-* **Usuario:** `admin`
-* **Contraseña:** `admin123`
+Point your web browser to `http://localhost/New-Gestion-Aprendices/Modules/Dashboard/dashboard.php`
 
----
+## Default Credentials
 
-## Seguridad Implementada
+- **Username:** admin
+- **Password:** admin123
 
-*  Encriptación de contraseñas robusta mediante `password_hash()` y validación con `password_verify()`.
-*  Protección contra inyecciones SQL usando sentencias preparadas con **PDO**.
-*  Sistema estricto de validación y control de acceso basado en roles.
+## Features
+
+### Admin Panel
+- User management (create, view, delete users)
+- Apprentice management
+- Instructor management
+- Risk management with classification system
+- Audit log of all system activities
+
+### Instructor Panel
+- View apprentices
+- Create observations for apprentices
+
+### Apprentice Panel
+- View assigned observations
+- View risk information
+
+## Directory Structure
+
+```
+Modules/
+├── Dashboard/
+│   ├── crud.php          # Database operations
+│   ├── db.php            # Database configuration
+│   └── dashboard.php     # Main UI
+└── ValoradorRiesgo/
+    └── calcularRiesgo.php # Risk calculation logic
+```
+
+## Database Schema
+
+### usuarios
+- id (PK)
+- username
+- password
+- role (admin, instructor, aprendiz)
+
+### aprendices
+- id (PK)
+- nombre
+- programa
+- usuario_id (FK to usuarios)
+
+### instructores
+- id (PK)
+- nombre
+- especialidad
+
+### riesgos
+- id (PK)
+- descripcion
+- nivel
+- justificacion
+
+### observaciones
+- id (PK)
+- aprendiz_id (FK to aprendices)
+- texto
+- autor_id (FK to usuarios)
+
+### auditoria
+- id (PK)
+- usuario
+- accion
+- fecha (timestamp)
+
+## Security Features
+
+- Password hashing with PASSWORD_DEFAULT
+- SQL prepared statements for injection prevention
+- Session-based authentication
+- Role-based access control
+- Comprehensive audit logging
+
+## Support
+
+For issues or questions, please create an issue in the repository.
 
 ##  Autor
 
-* **Desarrollador:** Juan Manuel Cardona Molina
+ * **Desarrollador:** Juan Manuel Cardona Molina
