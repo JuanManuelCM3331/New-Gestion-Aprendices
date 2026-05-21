@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
             if (in_array($table, $allowedTables, true)) {
                 $db->prepare("DELETE FROM $table WHERE id = ?")->execute([$_GET['id']]);
                 $auditAction = 'Eliminó ' . $table . ' ID: ' . $_GET['id'];
-                $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
+        //        $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, ?)")->execute([$_SESSION['user']['username'], $auditAction]);
             }
         }
         header('Location: ?page=' . $page);
@@ -86,7 +86,7 @@ if ($action === 'del' && isset($_SESSION['user']) && $role === 'admin') {
     $table = $_GET['tabla'] ?? '';
     if (in_array($table, $allowedTables, true)) {
         $db->prepare("DELETE FROM $table WHERE id = ?")->execute([$_GET['id']]);
-        $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, 'Eliminó ' . ? . ' ID: ' . ? )")->execute([$_SESSION['user']['username'], $table, $_GET['id']]);
+    //    $db->prepare("INSERT INTO auditoria (usuario, accion) VALUES (?, 'Eliminó ' . ? . ' ID: ' . ? )")->execute([$_SESSION['user']['username'], $table, $_GET['id']]);
     }
     header('Location: ?page=' . $page);
     exit;
