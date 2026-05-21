@@ -305,7 +305,7 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT o.*, a.nombre AS aprendiz_nombre, u.username AS autor_nombre FROM observaciones o LEFT JOIN aprendices a ON o.aprendiz_id = a.id LEFT JOIN usuarios u ON o.autor_id = u.id ORDER BY o.id DESC";
+                            $sql = "SELECT o.*, a.nombre AS aprendiz_nombre, u.username AS autor_nombre FROM observaciones o LEFT JOIN aprendices a ON o.aprendiz_id = a.id LEFT JOIN usuarios u ON o.autor_id = u.id";
                             foreach ($db->query($sql) as $obs): ?>
                                 <tr>
                                     <td class="p-2 border"><?= htmlspecialchars($obs['aprendiz_nombre'] ?? 'Desconocido') ?></td>
