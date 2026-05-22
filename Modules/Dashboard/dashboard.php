@@ -27,8 +27,11 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
             </form>
         </div>
     <?php else: ?>
-        <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-        <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <!--++++++++++++++++++++++++++ Barra lateral ++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
         <aside class="w-64 bg-slate-900 text-slate-300 p-6 flex flex-col h-screen border-r border-slate-800 font-sans">
             <h1 class="text-xl font-extrabold text-white tracking-wide mb-8 flex flex-col gap-1">
                 <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Sistema</span>
@@ -63,12 +66,10 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
                         sesión</a>
                 </div>
             </nav>
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
         </aside>
-
-        <!--++++++++++++++++++++++++++++ dashboard ++++++++++++++++++++++++++++-->
-        <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-
-        <main class="flex-1 p-8 overflow-y-auto">
+          <main class="flex-1 p-8 overflow-y-auto">
             <?php if ($page == 'dashboard'): ?>
                 <div class="grid grid-cols-4 gap-4 mb-8">
                     <?php foreach (['aprendices', 'instructores', 'riesgos', 'usuarios'] as $t): ?>
@@ -84,15 +85,17 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
                     <?php endforeach; ?>
                 </div>
                 <div
-                    class="grid grid-cols-1 sm:grid-cols-5 gap-3 p-4 bg-slate-50/50 rounded-xl border border-slate-200 shadow-sm content-start">
+                    class="grid grid-cols-1 sm:grid-cols-4 gap-3 p-4 bg-slate-50/50 rounded-xl border border-slate-200 shadow-sm content-start gap-6">
                     <?php foreach ($db->query("SELECT * FROM riesgos") as $r):
                         $color = ($r['nivel'] >= 6) ? 'red' : (($r['nivel'] >= 3) ? 'yellow' : 'green'); ?>
-                        <div class=" bg-white p-4 rounded-xl border-2 border-l-8 border-<?= $color ?>-500 shadow">
+                        <div class=" bg-<?= $color ?>-500 p-4 border-l-8 border-l-<?= $color ?>-600 rounded-r-full border-4 transition-all duration-300 hover:scale-110 shadow-xl text-white">
                             <p class="font-bold"><?= $r['descripcion'] ?></p>
-                            <p class="text-xs text-<?= $color ?>-500 font-bold">Nivel: <?= $r['nivel'] ?></p>
+                            <p class="text-xs text-white font-bold">Nivel: <?= $r['nivel'] ?></p>
+                            <p class="text-xs text-white font-bold">Descripción: <?= $r['justificacion'] ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>
+
             <?php endif; ?>
             <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
             <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
