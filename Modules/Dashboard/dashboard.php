@@ -148,7 +148,7 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
             <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
             <?php if ($page == 'observaciones'): ?>
                 <!-- Formulario -->
-                <?php if ($_SESSION['user']['role'] === 'instructor'): ?>
+                <?php if ($_SESSION['user']['role'] === 'instructor'|| $_SESSION['user']['role'] === 'admin'): ?>
                     <?php require_once __DIR__ . '/observaciones.php'; ?>
                 <?php endif; ?>
             <?php endif; ?>
