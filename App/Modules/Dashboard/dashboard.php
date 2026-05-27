@@ -74,19 +74,64 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-4 gap-3 p-4 bg-slate-50/50 rounded-xl border border-slate-200 shadow-sm content-start gap-6">
-                    <?php foreach ($db->query("SELECT * FROM riesgos") as $r):
-                        $color = ($r['nivel'] >= 6) ? 'red' : (($r['nivel'] >= 3) ? 'yellow' : 'green'); ?>
-                        <div
-                            class=" bg-<?= $color ?>-500 p-4 border-l-8 border-l-<?= $color ?>-600 rounded-r-full border-4 transition-all duration-300 hover:scale-150 shadow-xl text-white">
-                            <p class="font-bold"><?= $r['descripcion'] ?></p>
-                            <p class="text-xs text-white font-bold">Nivel: <?= $r['nivel'] ?></p>
-                            <p class="text-xs text-white font-bold">Descripción: <?= $r['justificacion'] ?></p>
-                        </div>
-                    <?php endforeach; ?>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+    <?php foreach ($db->query("SELECT * FROM riesgos") as $index => $r):
+        $color = ($r['nivel'] >= 6) ? 'red' : (($r['nivel'] >= 3) ? 'yellow' : 'green');
+    ?>
+        <!-- Tarjeta -->
+        <div class="flex flex-col bg-<?= $color ?>-100 p-5 border-l-8 border-<?= $color ?>-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
+            <h3 class="font-bold text-lg text-gray-800 mb-2"><?= htmlspecialchars($r['descripcion']) ?></h3>
+
+            <p class="text-sm text-gray-600 mb-4 line-clamp-3">
+                <?= htmlspecialchars(substr($r['justificacion'], 0, 100)) ?>
+            </p>
+
+            <button onclick="document.getElementById('panel-<?= $index ?>').classList.remove('hidden')"
+                    class="bg-<?= $color ?>-200 rounded-full mt-auto text-sm font-bold text-<?= $color ?>-600 hover:underline duration-300 hover:scale-110 cursor-pointer w-full py-4">
+                Ver detalle completo →
+            </button>
+        </div>
+
+        <!-- Overlay -->
+        <div id="panel-<?= $index ?>"
+             class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+             onclick="if(event.target===this) this.classList.add('hidden')">
+
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg border border-<?= $color ?>-200">
+
+                <!-- Header -->
+                <div class="flex items-start justify-between gap-4 px-6 pt-6 pb-4 border-b border-<?= $color ?>-100 bg-<?= $color ?>-50 rounded-t-xl">
+                    <h2 class="text-lg font-semibold leading-snug text-<?= $color ?>-900">
+                        <?= htmlspecialchars($r['descripcion']) ?>
+                    </h2>
+                    <button onclick="document.getElementById('panel-<?= $index ?>').classList.add('hidden')"
+                            class="shrink-0 mt-0.5 text-<?= $color ?>-400 hover:text-<?= $color ?>-700 transition-colors cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
                 </div>
 
+                <!-- Body -->
+                <div class="px-6 py-5 text-sm leading-relaxed text-gray-600">
+                    <?= nl2br(htmlspecialchars($r['justificacion'])) ?>
+                </div>
+
+                <!-- Footer -->
+                <div class="px-6 pb-6">
+                    <button onclick="document.getElementById('panel-<?= $index ?>').classList.add('hidden')"
+                            class="w-full py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer
+                                   bg-<?= $color ?>-100 text-<?= $color ?>-800
+                                   hover:bg-<?= $color ?>-200 active:scale-95">
+                        Cerrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
             <?php endif; ?>
             <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
             <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
