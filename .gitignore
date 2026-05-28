@@ -1,0 +1,25 @@
+﻿# Ignore secrets and local environment overrides
+.env
+.env.*
+
+# Dependencies
+/vendor/
+
+# Logs and cache
+*.log
+/logs/
+/tmp/
+/cache/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.dockerignore
