@@ -2,7 +2,7 @@
 
 Sistema integral para la gestión de aprendices, instructores, observaciones y evaluación de riesgos en un contexto educativo. Este proyecto forma parte de un trabajo de ciberseguridad y DevOps.
 
-## 📋 Descripción General
+## Descripción General
 
 **Gestion Aprendices** es una aplicación web desarrollada en PHP que permite:
 - Gestionar usuarios del sistema con diferentes roles
@@ -20,7 +20,7 @@ Sistema integral para la gestión de aprendices, instructores, observaciones y e
 - **Docker:** (Opcional, para containerización)
 - **Composer:** (Opcional, para dependencias)
 
-## 🚀 Instalación
+## Instalación
 
 ### Opción 1: Con Docker Compose (Recomendado)
 
@@ -63,14 +63,14 @@ $config = array(
 http://localhost/New-Gestion-Aprendices/App/Modules/Dashboard/login.php
 ```
 
-## 🔐 Credenciales por Defecto
+## Credenciales por Defecto
 
 - **Usuario:** admin
 - **Contraseña:** admin123
 
-⚠️ **Nota de Seguridad:** Cambiar las credenciales por defecto inmediatamente después de la instalación.
+**Nota de Seguridad:** Cambiar las credenciales por defecto inmediatamente después de la instalación.
 
-## 📦 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 New-Gestion-Aprendices/
@@ -96,7 +96,7 @@ New-Gestion-Aprendices/
 └── readme.md
 ```
 
-## 🔑 Características Principales
+## Características Principales
 
 ### Panel Administrador
 - ✅ Gestión de usuarios (crear, ver, actualizar, eliminar)
@@ -115,7 +115,7 @@ New-Gestion-Aprendices/
 - ✅ Ver observaciones asignadas
 - ✅ Consultar información de riesgos asociados
 
-## 🗄️ Modelo de Base de Datos
+## Modelo de Base de Datos
 
 ### Tabla `usuarios`
 - `id` (PK) - Identificador único
@@ -152,7 +152,7 @@ New-Gestion-Aprendices/
 - `accion` - Descripción de la acción
 - `fecha` - Timestamp de la acción
 
-## 🔒 Características de Seguridad
+## Características de Seguridad
 
 - ✅ Hashing de contraseñas con `PASSWORD_DEFAULT`
 - ✅ Consultas preparadas para prevenir SQL injection
@@ -162,7 +162,7 @@ New-Gestion-Aprendices/
 - ✅ Validación de entrada en formularios
 - ✅ Protección contra CSRF mediante tokens de sesión
 
-## 🐳 Docker
+## Docker
 
 ### Configuración Docker Compose
 
@@ -180,7 +180,7 @@ services:
 - `DB_USER` - Usuario de MySQL
 - `DB_PASS` - Contraseña del usuario de BD
 
-## 📝 Uso
+## Uso
 
 1. **Iniciar sesión** con las credenciales por defecto
 2. **Cambiar contraseña** recomendado en primer acceso
@@ -188,14 +188,14 @@ services:
 4. **Crear registros** de aprendices, instructores y observaciones
 5. **Consultar auditoría** para seguimiento de actividades
 
-## 🔄 Flujo de Riesgos
+## Flujo de Riesgos
 
 1. El sistema calcula automáticamente el nivel de riesgo
 2. Los riesgos se clasifican por nivel de severidad
 3. Las observaciones se vinculan a evaluaciones de riesgo
 4. Todo queda registrado en auditoría
 
-## 🛠️ Desarrollo
+## Desarrollo
 
 ### Estructura de módulos
 - Cada módulo es independiente dentro de Dashboard
@@ -210,19 +210,19 @@ Para añadir nuevas funcionalidades:
 3. Actualizar logs de auditoría
 4. Documentar cambios
 
-## 📧 Soporte
+## Soporte
 
 Para reportar problemas, sugerencias o preguntas, por favor crea un [issue](https://github.com/JuanManuelCM3331/New-Gestion-Aprendices/issues) en el repositorio.
 
-## 👨‍💻 Autor
+## Autor
 
 **Juan Manuel Cardona Molina**
 - Proyecto de Ciberseguridad y DevOps
 - [Perfil GitHub](https://github.com/JuanManuelCM3331)
 
-## 📄 Licencia
+## Licencia
 
-Este proyecto no especifica licencia. Para más información, contactar con el autor.
+Para más información, contactar con el autor.
 
 ---
 
