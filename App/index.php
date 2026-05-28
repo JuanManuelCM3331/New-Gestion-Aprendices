@@ -1,3 +1,3 @@
 <?php
-require_once '';
+require_once __DIR__ . '/Modules/Dashboard/dashboard.php';
 ?>

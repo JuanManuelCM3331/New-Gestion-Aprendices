@@ -4,9 +4,11 @@ require_once __DIR__ . '/../ValoradorRiesgo/calcularRiesgo.php';
 
 session_start();
 
-// Admin por defecto
+// Admin por defecto - Usar credenciales del .env
+$defaultAdminUser = getenv('DEFAULT_ADMIN_USER') ?: 'admin';
+$defaultAdminPass = getenv('DEFAULT_ADMIN_PASS') ?: 'admin123';
 if ($db->query("SELECT count(*) FROM usuarios")->fetchColumn() == 0)
-    $db->exec("INSERT INTO usuarios (username, password, role) VALUES ('admin', '" . password_hash('admin123', PASSWORD_DEFAULT) . "', 'admin')");
+    $db->exec("INSERT INTO usuarios (username, password, role) VALUES ('" . $defaultAdminUser . "', '" . password_hash($defaultAdminPass, PASSWORD_DEFAULT) . "', 'admin')");
 
 // Lógica de Procesamiento
 $loginError = '';
@@ -55,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
                 $cnt = $stmt->fetchColumn();
                 $i++;
             }
-            $password = 'aprendiz123';
+            $defaultAprendizPass = getenv('DEFAULT_APRENDIZ_PASS') ?: 'aprendiz123';
+            $password = $defaultAprendizPass;
             $db->prepare("INSERT INTO usuarios (username, password, role) VALUES (?,?,?)")->execute([$username, password_hash($password, PASSWORD_DEFAULT), 'aprendiz']);
             $uid = $db->lastInsertId();
             $db->prepare("INSERT INTO aprendices (nombre, programa, usuario_id) VALUES (?,?,?)")->execute([$nombre, $_POST['prog'], $uid]);

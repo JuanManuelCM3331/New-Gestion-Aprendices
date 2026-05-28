@@ -1,10 +1,10 @@
 <?php
 
 $config = array(
-    'host' => 'localhost',
-    'user' => 'root',
-    'pass' => '',
-    'db' => 'gestion_aprendices'
+    'host' => getenv('DB_HOST') ?: 'localhost',
+    'user' => getenv('DB_USER') ?: 'root',
+    'pass' => getenv('DB_PASS') ?: '',
+    'db'   => getenv('DB_NAME') ?: 'gestion_aprendices',
 );
 
 try {
