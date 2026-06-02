@@ -9,6 +9,8 @@
       - db
     volumes:
       - .:/var/www/html
+    networks:
+      - app_network
 
   db:
     image: mysql:8.0
@@ -27,6 +29,12 @@
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app_network
 
 volumes:
   db_data:
+
+networks:
+  app_network:
+    driver: bridge
