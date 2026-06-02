@@ -291,12 +291,12 @@
         <section id="roles" class="relative z-10 max-w-5xl mx-auto px-8 py-16">
             <div class="mb-10">
                 <span class="mono text-xs text-indigo-400 uppercase tracking-widest">/ roles del sistema</span>
-                <h2 class="text-2xl font-semibold text-black mt-2">Acceso por perfil</h2>
+                <h2 class="text-2xl font-semibold text-white mt-2">Acceso por perfil</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-                <div class="rounded-xl p-6 bg-indigo-600/10 border border-indigo-500/25">
+                <div class="service-card rounded-xl p-6 bg-indigo-600/10">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="badge-sys mono text-xs px-2 py-1 rounded">admin</span>
                     </div>
@@ -313,7 +313,7 @@
                     </ul>
                 </div>
 
-                <div class="rounded-xl p-6 bg-slate-800/60 border border-slate-700">
+                <div class="service-card rounded-xl p-6 bg-slate-800/60 border border-slate-700">
                     <div class="flex items-center gap-3 mb-4">
                         <span
                             class="mono text-xs px-2 py-1 rounded bg-slate-700 text-slate-300 border border-slate-600">instructor</span>
@@ -329,7 +329,7 @@
                     </ul>
                 </div>
 
-                <div class="rounded-xl p-6 bg-slate-800/60 border border-slate-700">
+                <div class="service-card rounded-xl p-6 bg-slate-800/60 border border-slate-700">
                     <div class="flex items-center gap-3 mb-4">
                         <span
                             class="mono text-xs px-2 py-1 rounded bg-slate-700 text-slate-300 border border-slate-600">aprendiz</span>
@@ -352,7 +352,7 @@
         <section id="contacto" class="relative z-10 max-w-5xl mx-auto px-8 py-16">
             <div class="mb-10">
                 <span class="mono text-xs text-indigo-400 uppercase tracking-widest">/ contacto</span>
-                <h2 class="text-2xl font-bold text-black mt-2">¿Necesitas soporte?</h2>
+                <h2 class="text-5xl font-bold text-white mt-2">¿Necesitas soporte?</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
