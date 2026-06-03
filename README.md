@@ -12,7 +12,7 @@ Sistema integral para la gestión de aprendices, instructores, observaciones y e
 - Evaluar riesgos con un sistema de clasificación
 - Mantener un registro de auditoría de todas las acciones
 
-## 🔧 Requisitos
+## Requisitos
 
 - **PHP:** >= 7.4 (Actualmente usa PHP 8.2)
 - **Base de Datos:** MySQL >= 5.7 o MariaDB >= 10.2
@@ -22,46 +22,51 @@ Sistema integral para la gestión de aprendices, instructores, observaciones y e
 
 ## Instalación
 
-### Opción 1: Con Docker Compose (Recomendado)
+### Con Docker Compose
 
+1) Clonar el repositorio
 ```bash
-# Clonar el repositorio
 git clone https://github.com/JuanManuelCM3331/New-Gestion-Aprendices.git
 cd New-Gestion-Aprendices
-
-# Crear archivo .env con las variables de entorno
-cp .env.example .env
-
-# Levantar los servicios
-docker-compose up -d
 ```
 
-Acceder a la aplicación en: `http://localhost:8080`
 
-### Opción 2: Instalación Manual
+2) Crear el archivo de variables de entorno
 
+En la raíz del proyecto crea un archivo .env
+Agrega al menos estas variables:
+ con:
+ ```
+ DB_ROOT_PASSWORD=secretroot
+DB_NAME=gestion_aprendices
+DB_USER=admin
+DB_PASS=admin123
+```
+
+3) Verificar que Docker esté instalado y funcionando
+
+En Windows: asegúrate de tener Docker Desktop iniciado.
+Desde PowerShell:
+```
+docker --version
+docker compose version
+```
+
+4) Levantar los contenedores
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/JuanManuelCM3331/New-Gestion-Aprendices.git
-cd New-Gestion-Aprendices
-
-# 2. Configurar base de datos
-# Editar App/Modules/Dashboard/db.php y actualizar credenciales:
+docker compose up -d
+docker compose ps
 ```
 
-```php
-$config = array(
-    'host' => 'localhost',
-    'user' => 'root',
-    'pass' => '',
-    'db' => 'gestion_aprendices'
-);
-```
+El contenedor db debe estar healthy o running
+Abrir la aplicación en el navegador
 
-```bash
-# 3. Acceder a la aplicación
-http://localhost/New-Gestion-Aprendices/App/Modules/Dashboard/login.php
-```
+abrir: http://localhost:8080
+Iniciar sesión en la web
+
+el README menciona credenciales por defecto:
+admin / admin123
+
 
 ## Credenciales por Defecto
 
