@@ -59,7 +59,6 @@ docker compose ps
 ```
 
 El contenedor db debe estar healthy o running
-Abrir la aplicación en el navegador
 
 abrir: http://localhost:8080
 Iniciar sesión en la web
@@ -108,7 +107,7 @@ New-Gestion-Aprendices/
 - ✅ Gestión de aprendices y su información
 - ✅ Gestión de instructores y especialidades
 - ✅ Gestión de riesgos con clasificación
-- ✅ Visualización del log de auditor��a
+- ✅ Visualización del log de auditoria
 - ✅ Control total del sistema
 
 ### Panel Instructor
@@ -231,4 +230,4 @@ Para más información, contactar con el autor.
 
 ---
 
-**Última actualización:** Mayo 28, 2026
+**Última actualización:** Junio 03, 2026
