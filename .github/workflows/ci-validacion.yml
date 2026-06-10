@@ -21,8 +21,8 @@ jobs:
         run: |
           test -f README.md
           test -f Dockerfile
-          test -f compose.yml
-          test -d app
+          test -f docker-compose.yml
+          test -d App
 
       - name: Confirmar validacion
         run: echo "Validacion basica ejecutada correctamente"
